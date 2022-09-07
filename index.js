@@ -28,10 +28,13 @@ app.get('/products/:id', (req, res) => {
     res.json(producto)
 })
 
-
-
 app.get('/productoRandom', (req, res) => {
-    res.send("esta es la pagina de producto random ")
+    let inicio = 1
+    let fin = 3
+    let enteroAleatorio = inicio + Math.floor(Math.random() * fin)
+    console.log(enteroAleatorio)
+    const producto = products.filter(product => product.id === enteroAleatorio)
+    res.json(producto)
 })
 
 const connectedServer = app.listen(PORT, () => {
