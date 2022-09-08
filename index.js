@@ -29,11 +29,9 @@ app.get('/products/:id', (req, res) => {
 })
 
 app.get('/productoRandom', (req, res) => {
-    let inicio = 1
-    let fin = 3
-    let enteroAleatorio = inicio + Math.floor(Math.random() * fin)
+    let enteroAleatorio = products[ Math.floor(Math.random() * products.length)]
     console.log(enteroAleatorio)
-    const producto = products.filter(product => product.id === enteroAleatorio)
+    const producto = products.filter(product => product.id === enteroAleatorio.id)
     res.json(producto)
 })
 
