@@ -1,6 +1,6 @@
 const express = require('express')
 const apiRoutes = require("./routers/app.routers")
-const fs = require("fs")
+const path = require("path")
 const PORT = process.env.PORT || 8080
 
 
@@ -8,11 +8,12 @@ const app = express()
 
 // Parsea el body de una peticion 
 app.use(express.json())
+app.use(express.static('public'))
+//app.use(express.urlencoded({extended: true}))
 
-
-app.get('/', (req, res) => {
-    res.send("esta es la pagina de inicio ")
-})
+// app.get('/', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "./nav-app/index.html"))
+// })
 
 app.use("/api", apiRoutes)
 
