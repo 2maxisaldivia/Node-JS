@@ -1,0 +1,13 @@
+<h1>Productos</h1>
+{{#if mostrarProductos}}
+    <div>
+        {{#each products}}
+            <div>
+                <div>
+                    {{this.title}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{/if}}
+<button><a href="/">Volver a formulario</a></button>
