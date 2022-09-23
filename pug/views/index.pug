@@ -13,9 +13,9 @@ html(lang="en")
             ul  
                 each item in products
                     li=`${item.title}` 
-            button(class='btnVolver')
+            button()
                 a(href="/") Volver 
         else
             h3 No tiene productos cargados.
-                div(class='backProct')
+                div()
                     a(href="/") Volver 
