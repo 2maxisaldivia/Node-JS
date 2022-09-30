@@ -1,22 +1,54 @@
-const express = require('express')
-//importa server como HttpServer
-const { Server: HttpServer, Server } = require('http')
-const { Server: SocketServer } = require('socket.io')
+const express = require("express");
+const { engine } = require("express-handlebars");
+const path = require("path");
+const Products = require("./model/data");
 
-const PORT = process.env.PORT || 8080
-const app = express()
+const app = express();
+const products = new Products();
+const { items } = products;
 
-app.use(express.static("./public"))
+const PORT = process.env.PORT || 8080;
 
-const httpServer = new HttpServer(app)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-httpServer.listen(PORT, () => {
-    console.log(`server is up and running on port ${PORT}`)
+app.engine("hbs", engine({
+    extname: "hbs",
+    defaultLayout: "main.hbs",
+    layoutsDir: path.resolve(__dirname, "./views/layouts"),
+    partialsDir: path.resolve(__dirname, "./views/partials")
+}))
+
+app.set("views", "./views")
+app.set("view engine", "hbs")
+
+app.post("/productos", (req, res) => {
+  const data = req.body;
+  const { title, price, thumbnail } = req.body;
+  if (title || price || thumbnail) {
+    products.save(data);
+    res.redirect("/productos");
+  }
+});
+
+app.get("/productos", (req, res) => {
+  if (items.length >= 1) {
+    res.render("index", {
+      mostrarProductos: true,
+      products: items,
+    });
+  } else {
+    res.render("index", {
+      mostrarProductos: false,
+    });
+  }
+});
+
+const connectedServer = app.listen(PORT, () => {
+    console.log(`server is running on port ${PORT}`)
 })
 
-const io = new SocketServer(httpServer)
-
-io.on("connection", (socket) => {
-    console.log("usuario conectado")
-    socket.emit("server-message", "este es un mensaje desde el servidor")
+connectedServer.on('error', error => {
+    console.log(error.message)
 })

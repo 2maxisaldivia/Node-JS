@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
+
 <body>
-    <h1>Socket</h1>
-    <input type="text" id="chat-input">
-    <div id="chat-box">
-        <span id="chat-box-message"></span>
-    </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./client.js"></script>
+    <main class="container">
+        <form action="/productos" method="post">
+            <div>Save a product</div>
+            <label for="title">Title:</label>
+            <input type="text" name="title" />
+            <label for="price">Price:</label>
+            <input type="text" name="price" />
+            <label for="thumbnail">URL Image:</label>
+            <input type="text" name="thumbnail" />
+            <button type="submit">Send</button>
+        </form>
+        <button class="btnProduct">
+            <a href="/productos">Mostrar productos</a>
+        </button>
+    </main>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script>
+        // compile the template
+        var template = Handlebars.compile("Handlebars <b>{{doesWhat}}</b>");
+        // execute the compiled template and print the output to the console
+        console.log(template({ doesWhat: "rocks!" }));
+    </script> -->
 </body>
+
 </html>
