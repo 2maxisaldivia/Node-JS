@@ -9,8 +9,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    //console.log("params",req.params)
-  const { id } = req.params// pasar a number un string
+  const { id } = req.params // pasar a number un string
   const product = productsMethod.getProductById(+id)
   if (product.length === 0) {
       return res.status(400).send({error : "producto no encontrado"})
@@ -34,9 +33,9 @@ router.post('/', (req, res) => {
 router.delete("/:id", (req, res) => {
     const { id } = req.params
     const array  = productsMethod.deleteProduct(id)
-    // if (id > array.length | id < array.length) {
-    //     return res.status(400).send(`Producto con id ${id} no existe`)
-    // }
+    if (id > array.length | id < array.length) {
+        return res.status(400).send(`Producto con id ${id} no existe`)
+    }
     res.json(array)
 })
 
@@ -71,7 +70,7 @@ router.put("/:id", (req, res) => {
   };
   //Reemplazamos los valores por el nuevo producto.
   productsArray[productIndex] = newProduct;
-  productsMethod.updateProduct(newProduct)
+  productsMethod.updateProduct()
   return res.json({ success: true, result: newProduct });
 });
 // no hace bien el put, porque borra todo fijarse este tema

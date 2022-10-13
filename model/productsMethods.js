@@ -39,32 +39,10 @@ const findIndex = (id) => {
   return index;
 }
 
-const updateProduct = (newProduct) => {
- 
+const updateProduct = () => {
   saveIntoDatabase(products)
 }
 
-// class Products {
-//   constructor() {
-//     this.products = products;
-//   }
-
-//   async getAll() {
-//     return this.products;
-//   }
-
-//   async getById(id) {
-//     return this.products.find((product) => product.id === +(id));
-//   }
-
-//   async findIndex(id) {
-//     return this.products.findIndex((product) => product.id === +(id));
-//   }
-
-//   async deleteProduct(id) {
-//     return this.products.filter((product) => product.id !== +(id));
-//   }
-// }
 
 module.exports = {
   saveIntoDatabase,

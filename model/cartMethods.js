@@ -1,26 +1,64 @@
-// const fs = require('fs')
-// const items = [];
+const fs = require("fs");
+const cart = require("../cart.json");
+const path = require("path");
+const products = require("../products.json")
+const pathFile = path.join("cart.json");
+const base = path.basename(pathFile);
 
-// class Cart {
-//   constructor() {
-//     this.items = items;
-//   }
+const saveIntoCart = (product) => {
+  fs.writeFileSync(base, JSON.stringify(product, null, 2), {
+    encoding: "utf-8",
+  });
+};
 
-//   async getAll() {
-//     return this.items;
-//   }
+const getCart = () => {
+  return cart;
+};
 
-//   async getById(id) {
-//     return this.items.find((item) => item.id === +(id));
-//   }
+const createCart = (newCart) => {
+  cart.push(newCart);
+  saveIntoCart(cart);
+};
 
-//   async findIndex(id) {
-//     return this.items.findIndex((item) => item.id === +(id));
-//   }
+const deleteCart = (id) => {
+  const findCart = cart.filter((i) => i.id === id);
+  if (findCart) {
+    saveIntoCart([]);
+  }
+};
 
-//   async deleteProduct(id) {
-//     return this.items.filter((item) => item.id !== +(id));
+const findCart = (id) => {
+  const cartFound = cart.find(i => i.id === id)
+  if (!cartFound) {
+    return 
+  }
+  return cartFound
+  
+}
+
+const addProduct = (newProduct) => {
+  const productToAdd = products.find(product => product.title === newProduct.title)
+  if (!productToAdd) {
+    return null
+  }
+  return productToAdd
+}
+
+// const deleteProduct = (productId) => {
+//   const productToDelete = cart.productos.filter(product => product.id !== productId)
+//   if (!productToDelete) {
+//     return null
 //   }
+//   return productToDelete
 // }
 
-// module.exports = Cart;
+module.exports = {
+  saveIntoCart,
+  getCart,
+  createCart,
+  deleteCart,
+  findCart,
+  addProduct,
+  //deleteProduct
+  
+};
