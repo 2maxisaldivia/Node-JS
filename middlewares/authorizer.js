@@ -1,4 +1,4 @@
-const admin = false;
+const admin = true;
 const authorizer = (req, res, next) => {
   //const search = url.find((el) => el === req.url);
 

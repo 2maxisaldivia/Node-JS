@@ -8,7 +8,7 @@ const app = express()
 // Parsea el body de una peticion 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(authorizer)
+app.use(authorizer)
 
 app.get('/', (req, res) => {
     res.send("esta es la pagina de inicio")
