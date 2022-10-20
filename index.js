@@ -2,6 +2,7 @@ const express = require("express");
 const { engine } = require("express-handlebars");
 const path = require("path");
 const Products = require("./model/data");
+const dbConfig = require("./db/config")
 const { formatMessage } = require("./utils/utils");
 
 const { Server: HttpServer } = require("http");
@@ -12,8 +13,9 @@ const PORT = process.env.PORT || 8080;
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
 
-const products = new Products();
+const products = new Products(dbConfig, "products");
 const { items } = products;
+
 
 //Midllewaress
 app.use(express.json());
@@ -49,7 +51,7 @@ app.post("/", (req, res) => {
   if (!title || !price || !thumbnail) {
     return;
   }
-  products.save(data);
+  products.saveProduct(data);
   res.redirect("/");
 });
 

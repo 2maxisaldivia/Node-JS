@@ -1,8 +1,8 @@
 module.exports = {
-    client: "mysql",
+    client: 'mysql',
     connection: {
-        host:'',
-        user: '',
-        database: ''
+        host:'127.0.0.1',
+        user: 'root',
+        database: 'ecommerce'
     }
 }
