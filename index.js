@@ -2,6 +2,7 @@ const express = require("express");
 const { engine } = require("express-handlebars");
 const path = require("path");
 const Products = require("./model/data");
+const Messages = require("./model/messages")
 const dbConfig = require("./db/config")
 const { formatMessage } = require("./utils/utils");
 
@@ -13,10 +14,9 @@ const PORT = process.env.PORT || 8080;
 const httpServer = new HttpServer(app);
 const io = new SocketServer(httpServer);
 
-const products = new Products(dbConfig, "products");
-const { items } = products;
-
-
+const products = new Products(dbConfig.mariaDB, "products");
+const mensajes = new Messages(dbConfig.sqlite, "messages")
+//mensajes.createTable()
 //Midllewaress
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,9 +37,10 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "hbs"); 
 
 
-app.get("/api/productos", (req, res) => {
-  res.json(items);
-});
+// app.get("/api/productos", async (req, res) => {
+//   const productos = await products.getProducts()
+//   res.json(productos);
+// });
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -63,12 +64,13 @@ const messages = [];
 const users = [];
 
 //Método io() con sus parámetros
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   console.log(`Nuevo usuario conectado!`);
 
-  io.emit("items", [...items]);
-
-  io.emit("message", [...messages]);
+  const prod = await products.getProducts()
+  io.emit("items", prod);
+  const msg = await mensajes.getMessages()
+  io.emit("message", msg);
 
   socket.on("new-user", (email) => {
     const newUser = {
@@ -81,8 +83,9 @@ io.on("connection", (socket) => {
   socket.on("new-message", async (msg) => {
     const user = users.find((user) => user.id === socket.id);
     const newMessage = formatMessage(socket.id, user.email, msg);
-    messages.push(newMessage);
-    products.saveMessage(user.email, msg, newMessage.time);
+    mensajes.addMessage(newMessage)
+    // messages.push(newMessage);
+    //products.saveMessage(user.email, msg, newMessage.time);
     io.emit("chat-message", newMessage);
   });
 

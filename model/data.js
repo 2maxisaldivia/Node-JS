@@ -1,12 +1,9 @@
 const knex = require("knex")
-const products = [];
-const msg = [];
+
 class Products {
   constructor(config, tableName) {
     this.table = tableName
     this.knex = knex(config);
-    this.items = products;
-    this.data = msg;
 
     this.knex.schema.hasTable(this.table)
       .then((response) => {
@@ -23,11 +20,7 @@ class Products {
       .catch((err) => console.log(err))
     }
 
-  async addProduct(item) {
-    return this.knex.insert(item);
-  }
-
-  async getProducts(tableName) {
+  async getProducts() {
     try {
       const products = await this.knex.from(this.table).select('id', 'title', 'price')
       console.table(products)
@@ -35,8 +28,6 @@ class Products {
     } catch (err) {
       console.log(err)
     }
-    return this.knex.from(tableName).select('id', 'title', 'price');
-
   }
 
   async saveProduct(product) {
@@ -44,21 +35,13 @@ class Products {
     if (!title || !price || !thumbnail) {
       return null;
     }
-    const newProduct = { id: this.items.length + 1, title, price, thumbnail };
+    const newProduct = { title, price, thumbnail };
     try {
       await this.knex(this.table).insert(newProduct)
       console.log("se agrego")
     } catch (err) {
       console.log(err)
     }
-    //this.items.push(newProduct);
-    //return this.items;
-  }
-
-  async saveMessage(email, text, time) {
-    const user = { email, text, time };
-    this.data.push(user);
-    return this.data;
   }
 }
 module.exports = Products;
