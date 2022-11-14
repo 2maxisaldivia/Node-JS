@@ -21,25 +21,3 @@ const makeRequest = async () => {
 
   }
 }
-
-const app = express()
-
-// Parsea el body de una peticion 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(authorizer)
-
-app.get('/', (req, res) => {
-    res.send("esta es la pagina de inicio")
-})
-
-app.use("/api", apiRoutes)
-
-
-const connectedServer = app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`)
-})
-
-connectedServer.on('error', error => {
-    console.log(error.message)
-})
