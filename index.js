@@ -5,6 +5,7 @@ const Products = require("./model/data");
 const Messages = require("./model/messages")
 const dbConfig = require("./db/config")
 const { formatMessage } = require("./utils/utils");
+const admin = require("firebase-admin")
 
 const { Server: HttpServer } = require("http");
 const { Server: SocketServer } = require("socket.io");
@@ -16,6 +17,12 @@ const io = new SocketServer(httpServer);
 
 const products = new Products(dbConfig.mariaDB, "products");
 const mensajes = new Messages(dbConfig.sqlite, "messages")
+
+var serviceAccount = require("./db/firebase/firebase.config.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 //mensajes.createTable()
 //Midllewaress
 app.use(express.json());
