@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "productos": [
+      {
+        "id": 2,
+        "title": "pantalon",
+        "price": 22,
+        "thumbnail": "https://pantalon.jpg"
+      }
+    ]
+  }
+]
